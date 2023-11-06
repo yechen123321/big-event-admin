@@ -1,4 +1,10 @@
 <template>
+  <hr />
+  <router-view></router-view>
+  <hr />
+  <hr />
+  <hr />
+  <hr />
   <div>
     我是app
     <text-demo></text-demo>
