@@ -13,6 +13,8 @@
       >登录</el-button
     >
     <el-button @click="userStore.removeToken()">退出</el-button>
+    {{ countStore.count }}
+    <el-button @click="countStore.add(2)">加法2</el-button>
   </div>
 </template>
 
@@ -25,10 +27,11 @@
 // 2. 获取路由参数 route   useRoute
 //   const route = useRoute
 import { useRouter, useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+import { useUserStore, useCountStore } from '@/stores'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
+const countStore = useCountStore()
 const goList = () => {
   router.push('/list')
   console.log(router, route)
