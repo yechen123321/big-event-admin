@@ -6,15 +6,13 @@
     <!-- 表单区域 -->
     <el-form inline>
       <el-form-item label="文章分类：">
-        <!-- label 展示给用户看的，value 提交给后台的  -->
-        <el-select>
-          <el-option label="新闻" value="111"></el-option>
-          <el-option label="体育" value="222"></el-option>
-        </el-select>
+        <!-- Vue2 => v-model :value 和 @input 的简写 -->
+        <!-- Vue3 => v-model :modeValue 和 @update:modelValue 的简写 -->
+        <Channel-Select v-model="params.cate_id"></Channel-Select>
       </el-form-item>
       <el-form-item label="发布状态：">
-        <!-- 这里后台标记 -->
-        <el-select>
+        <!-- 这里后台标记发布状态，就是通过中文标记的，已发布 / 草稿 -->
+        <el-select v-model="params.state">
           <el-option label="已发布" value="已发布"></el-option>
           <el-option label="草稿" value="草稿"></el-option>
         </el-select>
@@ -62,26 +60,30 @@
 <script setup>
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-// 假数据
-const articleList = ref([
-  {
-    id: 5961,
-    title: '新的文章啊',
-    pub_date: '2022-07-10 14:53:52.604',
-    state: '已发布',
-    cate_name: '体育'
-  },
-  {
-    id: 5962,
-    title: '新的文章啊',
-    pub_date: '2022-07-10 14:54:30.904',
-    state: '草稿',
-    cate_name: '体育'
-  }
-])
+import { artGetListService } from '@/api/article'
+import ChannelSelect from './components/ChannelSelect.vue'
+const articleList = ref([])
+const total = ref(0)
+// 定义请求参数对象
+const params = ref({
+  pagenum: 1,
+  pagesize: 5,
+  cate_id: '',
+  state: ''
+})
+
+const getArticleList = async () => {
+  const res = await artGetListService(params.value)
+  articleList.value = res.data.data
+  total.value = res.data.total
+}
+getArticleList()
+
+// 编辑逻辑
 const onEditArticle = (row) => {
   console.log(row)
 }
+// 删除逻辑
 const onDeleteArticle = (row) => {
   console.log(row)
 }
