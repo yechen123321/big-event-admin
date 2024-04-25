@@ -1,5 +1,4 @@
 <template>
-  <!-- 国际化处理 -->
   <el-config-provider :locale="zh">
     <router-view />
   </el-config-provider>
